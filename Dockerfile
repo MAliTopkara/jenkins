@@ -1,5 +1,6 @@
 # AutoGluon + MLflow + DVC ortamı
-FROM python:3.11-slim
+FROM python:3.10-slim
+
 
 WORKDIR /workspace
 
