@@ -1,12 +1,25 @@
 pipeline {
-    agent any
+    agent {
+        dockerfile {
+            filename 'Dockerfile'
+            dir '.'
+            additionalBuildArgs '--no-cache'
+        }
+    }
 
     stages {
+        stage('Check Python Version') {
+            steps {
+                sh 'python --version'
+            }
+        }
+
         stage('Setup Environment') {
             steps {
                 sh '''
-                pip install -r requirements.txt
-                pip install mlflow==2.14.0 autogluon==1.2.0 dvc[gdrive]==3.53.0
+                echo "🔧 Installing dependencies..."
+                pip install --upgrade pip setuptools wheel
+                pip install --no-cache-dir -r requirements.txt || echo "No requirements.txt found"
                 dvc pull || echo "No DVC remote found"
                 '''
             }
@@ -20,13 +33,14 @@ pipeline {
 
         stage('Track Metrics') {
             steps {
-                echo 'Training complete — metrics logged to MLflow'
+                echo ' Training complete — metrics logged to MLflow'
             }
         }
 
         stage('Push to DVC + GitHub') {
             steps {
                 sh '''
+                echo "📤 Pushing updates to DVC and GitHub..."
                 dvc add data/ || echo "No data folder"
                 dvc push || echo "No DVC remote"
                 git config --global user.email "jenkins@local"
