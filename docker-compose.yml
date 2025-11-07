@@ -1,33 +1,25 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  autogluon-trainer:
-    build: .
-    container_name: autogluon_trainer
-    working_dir: /app
-    volumes:
-      - ./app:/app
-      - C:\mlflow_store:/mlflow    # host'ta C:\mlflow_store -> container /mlflow
-    environment:
-      - MLFLOW_TRACKING_URI=http://mlflow:5000
-    depends_on:
-      - mlflow
-    command: ["python", "/app/train.py"]
-
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.14.2
+    image: ghcr.io/mlflow/mlflow
     container_name: mlflow
-    restart: unless-stopped
     ports:
       - "5000:5000"
-    command:
-      - mlflow
-      - server
-      - --host
-      - "0.0.0.0"
-      - --backend-store-uri
-      - "sqlite:////mlflow/mlflow.db"
-      - --default-artifact-root
-      - "/mlflow/artifacts"
     volumes:
-      - C:\mlflow_store:/mlflow
+      - ./mlruns:/mlflow/mlruns
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=sqlite:///mlflow.db
+      - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/mlruns
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - ./:/workspace
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
