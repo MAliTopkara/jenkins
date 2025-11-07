@@ -1,0 +1,111 @@
+{
+  "model_types": {
+    "LightGBM": "LGBModel",
+    "RandomForest": "RFModel",
+    "CatBoost": "CatBoostModel",
+    "ExtraTrees": "XTModel",
+    "LinearModel": "LinearModel",
+    "WeightedEnsemble_L2": "WeightedEnsembleModel"
+  },
+  "model_performance": {
+    "LightGBM": 0.29411764705882354,
+    "RandomForest": 0.11764705882352941,
+    "CatBoost": 0.17647058823529413,
+    "ExtraTrees": 0.17647058823529413,
+    "LinearModel": 0.17647058823529413,
+    "WeightedEnsemble_L2": 0.29411764705882354
+  },
+  "model_best": "WeightedEnsemble_L2",
+  "model_paths": {
+    "LightGBM": [
+      "LightGBM"
+    ],
+    "RandomForest": [
+      "RandomForest"
+    ],
+    "CatBoost": [
+      "CatBoost"
+    ],
+    "ExtraTrees": [
+      "ExtraTrees"
+    ],
+    "LinearModel": [
+      "LinearModel"
+    ],
+    "WeightedEnsemble_L2": [
+      "WeightedEnsemble_L2"
+    ]
+  },
+  "model_fit_times": {
+    "LightGBM": 2.2784953117370605,
+    "RandomForest": 0.2644627094268799,
+    "CatBoost": 0.33599090576171875,
+    "ExtraTrees": 0.3062918186187744,
+    "LinearModel": 4.866268157958984,
+    "WeightedEnsemble_L2": 0.05612635612487793
+  },
+  "model_pred_times": {
+    "LightGBM": 0.005999088287353516,
+    "RandomForest": 0.020126819610595703,
+    "CatBoost": 0.001001119613647461,
+    "ExtraTrees": 0.03255486488342285,
+    "LinearModel": 0.0021600723266601562,
+    "WeightedEnsemble_L2": 0.001003265380859375
+  },
+  "num_bag_folds": 0,
+  "max_stack_level": 2,
+  "num_classes": 5,
+  "model_hyperparams": {
+    "LightGBM": {
+      "learning_rate": 0.05,
+      "num_boost_round": 100
+    },
+    "RandomForest": {
+      "n_estimators": 100,
+      "max_leaf_nodes": 15000,
+      "n_jobs": -1,
+      "random_state": 0,
+      "bootstrap": true
+    },
+    "CatBoost": {
+      "iterations": 100,
+      "learning_rate": 0.05,
+      "random_seed": 0,
+      "allow_writing_files": false,
+      "eval_metric": "Accuracy"
+    },
+    "ExtraTrees": {
+      "n_estimators": 100,
+      "max_leaf_nodes": 15000,
+      "n_jobs": -1,
+      "random_state": 0,
+      "bootstrap": true
+    },
+    "LinearModel": {
+      "random_state": 0,
+      "fit_intercept": true,
+      "solver": "lbfgs",
+      "C": 1,
+      "vectorizer_dict_size": 75000,
+      "proc.ngram_range": [
+        1,
+        5
+      ],
+      "proc.skew_threshold": 0.99,
+      "proc.impute_strategy": "median",
+      "penalty": "L2",
+      "handle_text": "ignore"
+    },
+    "WeightedEnsemble_L2": {
+      "use_orig_features": false,
+      "valid_stacker": true,
+      "max_base_models": 0,
+      "max_base_models_per_type": "auto",
+      "save_bag_folds": true,
+      "stratify": "auto",
+      "bin": "auto",
+      "n_bins": null
+    }
+  },
+  "leaderboard": "                 model  score_val eval_metric  pred_time_val  ...  fit_time_marginal  stack_level  can_infer  fit_order\n0             LightGBM   0.294118    accuracy       0.005999  ...           2.278495            1       True          1\n1  WeightedEnsemble_L2   0.294118    accuracy       0.007002  ...           0.056126            2       True          6\n2             CatBoost   0.176471    accuracy       0.001001  ...           0.335991            1       True          3\n3          LinearModel   0.176471    accuracy       0.002160  ...           4.866268            1       True          5\n4           ExtraTrees   0.176471    accuracy       0.032555  ...           0.306292            1       True          4\n5         RandomForest   0.117647    accuracy       0.020127  ...           0.264463            1       True          2\n\n[6 rows x 10 columns]"
+}

@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  autogluon-trainer:
+    build: .
+    container_name: autogluon_trainer
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - C:\mlflow_store:/mlflow    # host'ta C:\mlflow_store -> container /mlflow
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - mlflow
+    command: ["python", "/app/train.py"]
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.14.2
+    container_name: mlflow
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    command:
+      - mlflow
+      - server
+      - --host
+      - "0.0.0.0"
+      - --backend-store-uri
+      - "sqlite:////mlflow/mlflow.db"
+      - --default-artifact-root
+      - "/mlflow/artifacts"
+    volumes:
+      - C:\mlflow_store:/mlflow

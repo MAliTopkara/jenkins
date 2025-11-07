@@ -1,0 +1,6 @@
+label: rating
+time_limit: 60
+hyperparameters:
+  GBM:
+    num_boost_round: 100
+  AG_TEXT_NN: {}  # TEXT_NN yerine AG_TEXT_NN kullanılıyor
